@@ -36,8 +36,8 @@ export default function Layout({
       <aside className="sidebar" id="sidebar">
         <div className="sidebar-logo">
           <div className="logo-icon">🌍</div>
-          <h2>NGO Manager</h2>
-          <p>Project Management System</p>
+          <h2>Happy Family</h2>
+          <p>Internal Management System</p>
         </div>
         <nav className="sidebar-nav">
           {sections.map((sec) => (
