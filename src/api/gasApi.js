@@ -2,7 +2,7 @@
 //  NGO MANAGER — GAS API Layer
 //  Replace GAS_URL with your deployed Web App URL
 // ─────────────────────────────────────────────────────────────
-
+console.log('ENV:', import.meta.env);
 const GAS_URL = import.meta.env.VITE_GAS_URL;
 
 // Generic GET request — appends ?api=1&action=xxx&...params
@@ -56,3 +56,6 @@ export const getProjectList = () => gasGet('getProjectList');
 // ─── Activities ──────────────────────────────────────────────
 export const getActivities = (date = null) => gasGet('getActivities', date ? { date } : {});
 export const submitActivity = (data) => gasPost({ action: 'submitActivity', ...data });
+
+export const registerUser = (data) => gasPost({ action: 'registerUser', ...data });
+export const loginUser    = (data) => gasPost({ action: 'loginUser',    ...data });

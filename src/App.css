@@ -12,12 +12,12 @@
 }
 
 :root {
-  --primary: #1a6e3c;
+  --primary: #ec409e;
   --primary-d: #0d4526;
   --primary-l: #e8f5ee;
   --accent: #e8a020;
   --accent-l: #fff8e6;
-  --sidebar-bg: #0a1a10;
+  --sidebar-bg: #4D0F65;
   --sidebar-w: 240px;
   --topbar-h: 60px;
   --card: #ffffff;
@@ -1114,4 +1114,15 @@ tr:hover td {
   .export-fmt-grid {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+/* ── LOGIN PAGE SCROLL FIX ──────────────────────────────────── */
+body.login-page {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+body.login-page html {
+  height: auto !important;
+  overflow: auto !important;
 }

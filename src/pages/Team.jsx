@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getTeamMembers, removeTeamMember } from '../api/gasApi';
 
 const ROLE_COLORS = {
-  'Project Manager': '#1a6e3c', 'M&E Officer': '#1a4e8c',
+  'Project Manager': '#ec409e', 'M&E Officer': '#1a4e8c',
   'Finance Officer': '#c17f00', 'Field Officer': '#6e1a6e', 'Volunteer': '#888',
 };
 

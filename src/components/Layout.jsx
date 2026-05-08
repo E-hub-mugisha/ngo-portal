@@ -2,7 +2,7 @@ const PAGES = [
   { id: "dashboard", icon: "📊", label: "Dashboard", section: "Main" },
   { id: "projects", icon: "📁", label: "Projects", section: "Main" },
   { id: "tasks", icon: "📋", label: "Tasks", section: "Main", badge: true },
-  { id: 'activity',  icon: '🗂️', label: 'Activity Log',  section: 'Main'           },
+  { id: "activity", icon: "🗂️", label: "Activity Log", section: "Main" },
   { id: "reports", icon: "📝", label: "Daily Reports", section: "Reports" },
   { id: "team", icon: "👥", label: "Team Members", section: "Administration" },
 ];
@@ -11,6 +11,8 @@ export default function Layout({
   activePage,
   onNavigate,
   taskCount,
+  onLogout,
+  user,
   children,
 }) {
   const today = new Date().toLocaleDateString("en-US", {
@@ -35,7 +37,13 @@ export default function Layout({
       {/* SIDEBAR */}
       <aside className="sidebar" id="sidebar">
         <div className="sidebar-logo">
-          <div className="logo-icon">🌍</div>
+          <div className="logo-icon">
+            <img
+              src="../src/assets/logo.png"
+              alt="Logo"
+              style={{ width: "32px", height: "32px" }}
+            />
+          </div>
           <h2>Happy Family</h2>
           <p>Internal Management System</p>
         </div>
@@ -61,12 +69,21 @@ export default function Layout({
         </nav>
         <div className="sidebar-footer">
           <div className="sidebar-user">
-            <div className="user-avatar">N</div>
+            <div className="user-avatar">
+              {user?.name?.charAt(0).toUpperCase() || "U"}
+            </div>
             <div className="user-info">
-              <div className="name">NGO Admin</div>
-              <div className="role">Project Manager</div>
+              <div className="name">{user?.name || "User"}</div>
+              <div className="role">{user?.role || "Staff"}</div>
             </div>
           </div>
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={onLogout}
+            style={{ width: "100%", marginTop: 8, justifyContent: "center" }}
+          >
+            🚪 Logout
+          </button>
         </div>
       </aside>
 

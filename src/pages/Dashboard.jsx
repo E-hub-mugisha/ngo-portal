@@ -33,7 +33,7 @@ export default function Dashboard({ onNavigate, onOpenModal, toast }) {
   useEffect(() => { load(); }, []); // eslint-disable-line
 
   const kpis = stats ? [
-    { label: 'Total Projects', value: stats.projects.total,                               sub: stats.projects.active + ' active',       c: '#1a6e3c', icon: '📁' },
+    { label: 'Total Projects', value: stats.projects.total,                               sub: stats.projects.active + ' active',       c: '#ec409e', icon: '📁' },
     { label: 'Open Tasks',     value: stats.tasks.pending + stats.tasks.inProgress,       sub: stats.tasks.dueToday + ' due today',     c: '#1a4e8c', icon: '📋' },
     { label: 'Due Today',      value: stats.tasks.dueToday,                               sub: stats.tasks.blocked + ' blocked',        c: '#c17f00', icon: '⚠️' },
     { label: 'Team Members',   value: stats.team.total,                                   sub: stats.reports.today + ' reports today',  c: '#6e1a6e', icon: '👥' },
@@ -52,7 +52,7 @@ export default function Dashboard({ onNavigate, onOpenModal, toast }) {
       {/* KPI Grid */}
       <div className="kpi-grid">
         {loading ? [1,2,3,4].map(i => (
-          <div key={i} className="kpi-card" style={{ '--c': '#1a6e3c' }}>
+          <div key={i} className="kpi-card" style={{ '--c': '#ec409e' }}>
             <div className="skeleton" style={{ width: '50px', height: '36px' }} />
             <div className="skeleton" style={{ width: '100px', height: '14px', marginTop: '8px' }} />
           </div>

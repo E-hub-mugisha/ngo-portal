@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './App.css';
 import App from './App';
@@ -19,7 +20,6 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-import React from 'react';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
     <App />

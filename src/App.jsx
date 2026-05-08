@@ -10,6 +10,7 @@ import Tasks from "./pages/Tasks";
 import Reports from "./pages/Reports";
 import Team from "./pages/Team";
 import Activity from "./pages/Activity";
+import Login from "./pages/Login";
 
 // Modals
 import ProjectModal from "./modals/ProjectModal";
@@ -23,23 +24,10 @@ export default function App() {
   const [page, setPage] = useState("dashboard");
   const [exportPreset, setExportPreset] = useState(null);
   const [taskCount, setTaskCount] = useState(null);
-
-  // ── Must be declared BEFORE useEffect that references it ──
+  const [user, setUser] = useState(null);
+  const [checking, setChecking] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
   const refresh = useCallback(() => setRefreshKey((k) => k + 1), []);
-
-  useEffect(() => {
-    getTasks()
-      .then((res) => {
-        const pending = res.data.filter(
-          (t) => t.status !== "Completed" && t.status !== "Cancelled",
-        ).length;
-        setTaskCount(pending);
-      })
-      .catch(() => setTaskCount(0));
-  }, [refreshKey]);
-
-  // Modal visibility
   const [modals, setModals] = useState({
     project: false,
     task: false,
@@ -60,12 +48,43 @@ export default function App() {
     [],
   );
 
+  // ✅ ALL useEffects together at the top, before any returns
+  useEffect(() => {
+    const saved = localStorage.getItem("ngo_user");
+    if (saved) setUser(JSON.parse(saved));
+    setChecking(false);
+  }, []);
+
+  useEffect(() => {
+    getTasks()
+      .then((res) => {
+        const pending = res.data.filter(
+          (t) => t.status !== "Completed" && t.status !== "Cancelled",
+        ).length;
+        setTaskCount(pending);
+      })
+      .catch(() => setTaskCount(0));
+  }, [refreshKey]);
+
+  function handleLogin(u) {
+    setUser(u);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("ngo_user");
+    localStorage.removeItem("ngo_token");
+    setUser(null);
+  }
+
+  // ✅ Early returns AFTER all hooks
+  if (checking) return null;
+  if (!user) return <Login onLogin={handleLogin} />;
+
   function openExport(presetId = null) {
     setExportPreset(presetId || null);
     openModal("export");
   }
 
-  // Action buttons shown in topbar depend on current page
   const topbarActions = (
     <>
       {page === "dashboard" && (
@@ -95,9 +114,8 @@ export default function App() {
     </>
   );
 
-  // Render active page
   const pageContent = (() => {
-    const common = { toast }; // ← remove key from here
+    const common = { toast };
     switch (page) {
       case "dashboard":
         return (
@@ -135,12 +153,15 @@ export default function App() {
   return (
     <>
       <ToastContainer toasts={toasts} />
-
-      <Layout activePage={page} onNavigate={setPage} taskCount={taskCount}>
+      <Layout
+        activePage={page}
+        onNavigate={setPage}
+        taskCount={taskCount}
+        onLogout={handleLogout}
+        user={user}
+      >
         {{ actions: topbarActions, content: pageContent }}
       </Layout>
-
-      {/* ── Modals ── */}
       <ProjectModal
         open={modals.project}
         onClose={() => closeModal("project")}
