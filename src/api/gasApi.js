@@ -3,7 +3,7 @@
 //  Replace GAS_URL with your deployed Web App URL
 // ─────────────────────────────────────────────────────────────
 
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyS4MWPP6I_dalhVN3yUHPit0Sh0LwdNRiZvRpi_C0xWjGNnMJBZgpcc6sawyAq-fVS/exec';
+const GAS_URL = import.meta.env.VITE_GAS_URL;
 
 // Generic GET request — appends ?api=1&action=xxx&...params
 async function gasGet(action, params = {}) {
