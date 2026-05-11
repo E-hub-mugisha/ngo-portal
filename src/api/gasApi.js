@@ -30,6 +30,8 @@ async function gasPost(payload) {
 export const getProjects = () => gasGet('getProjects');
 export const createProject = (data) => gasPost({ action: 'createProject', ...data });
 export const updateProjStatus = (id, s) => gasPost({ action: 'updateProjectStatus', projectId: id, newStatus: s });
+export const updateProject   = (data)       => gasPost({ action: 'updateProject',        ...data });
+export const deleteProject   = (id)         => gasPost({ action: 'deleteProject',        projectId: id });
 
 // ─── Tasks ───────────────────────────────────────────────────
 export const getTasks = (projectId = null) => gasGet('getTasks', projectId ? { projectId } : {});

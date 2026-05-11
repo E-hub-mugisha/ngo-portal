@@ -15,6 +15,28 @@ const BRAND = {
   red:       '#d63031',
 };
 
+const inputStyle = {
+  width: '100%',
+  boxSizing: 'border-box',
+  padding: '11px 14px',
+  borderRadius: 10,
+  border: '1.5px solid #dde3e9',
+  fontSize: 14,
+  color: BRAND.text,
+  background: BRAND.white,
+  outline: 'none',
+  transition: 'border .2s',
+  margin: 0,
+};
+
+// ✅ Moved outside Login so it's not recreated on every render
+const Field = ({ label, children }) => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+    <label style={{ fontSize: 13, fontWeight: 600, color: BRAND.text }}>{label}</label>
+    {children}
+  </div>
+);
+
 export default function Login({ onLogin }) {
   const [mode,    setMode]    = useState('login');
   const [loading, setLoading] = useState(false);
@@ -68,27 +90,6 @@ export default function Login({ onLogin }) {
     setLoading(false);
   }
 
-  const Field = ({ label, children }) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <label style={{ fontSize: 13, fontWeight: 600, color: BRAND.text }}>{label}</label>
-      {children}
-    </div>
-  );
-
-  const inputStyle = {
-    width: '100%',
-    boxSizing: 'border-box',
-    padding: '11px 14px',
-    borderRadius: 10,
-    border: '1.5px solid #dde3e9',
-    fontSize: 14,
-    color: BRAND.text,
-    background: BRAND.white,
-    outline: 'none',
-    transition: 'border .2s',
-    margin: 0,
-  };
-
   return (
     <div style={{
       minHeight: '100vh',
@@ -122,7 +123,7 @@ export default function Login({ onLogin }) {
             </h1>
             <p style={{ color: BRAND.textMed, fontSize: 14, margin: 0, lineHeight: 1.6 }}>
               {mode === 'login'
-                ? 'Sign in to access the NGO management system'
+                ? 'Sign in to access the system'
                 : 'Register to join the Happy Family team portal'}
             </p>
           </div>
