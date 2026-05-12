@@ -1,48 +1,36 @@
+import { NavLink, useLocation } from "react-router-dom";
+
 const PAGES = [
-  { id: "dashboard", icon: "📊", label: "Dashboard", section: "Main" },
-  { id: "projects", icon: "📁", label: "Projects", section: "Main" },
-  { id: "tasks", icon: "📋", label: "Tasks", section: "Main", badge: true },
-  { id: "activity", icon: "🗂️", label: "Activity Log", section: "Main" },
-  { id: "reports", icon: "📝", label: "Daily Reports", section: "Reports" },
-  { id: "team", icon: "👥", label: "Team Members", section: "Administration" },
+  { path: "/",         icon: "📊", label: "Dashboard",     section: "Main"           },
+  { path: "/projects", icon: "📁", label: "Projects",      section: "Main"           },
+  { path: "/tasks",    icon: "📋", label: "Tasks",         section: "Main", badge: true },
+  { path: "/activity", icon: "🗂️", label: "Activity Log",  section: "Main"           },
+  { path: "/reports",  icon: "📝", label: "Daily Reports", section: "Reports"        },
+  { path: "/team",     icon: "👥", label: "Team Members",  section: "Administration" },
 ];
 
-export default function Layout({
-  activePage,
-  onNavigate,
-  taskCount,
-  onLogout,
-  user,
-  children,
-}) {
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-  const titleMap = {
-    dashboard: "📊 Dashboard",
-    projects: "📁 Projects",
-    tasks: "📋 Tasks",
-    reports: "📝 Daily Reports",
-    team: "👥 Team Members",
-    activity: "🗂️ Activity Log",
-  };
+const titleMap = {
+  "/":         "📊 Dashboard",
+  "/projects": "📁 Projects",
+  "/tasks":    "📋 Tasks",
+  "/reports":  "📝 Daily Reports",
+  "/team":     "👥 Team Members",
+  "/activity": "🗂️ Activity Log",
+};
 
+export default function Layout({ taskCount, onLogout, user, children }) {
+  const location = useLocation();               // ← replaces activePage prop
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "short", month: "short", day: "numeric", year: "numeric",
+  });
   const sections = [...new Set(PAGES.map((p) => p.section))];
 
   return (
     <div className="app">
-      {/* SIDEBAR */}
       <aside className="sidebar" id="sidebar">
         <div className="sidebar-logo">
           <div className="logo-icon">
-            <img
-              src="../src/assets/logo.png"
-              alt="Logo"
-              style={{ width: "32px", height: "32px" }}
-            />
+            <img src="../src/assets/logo.png" alt="Logo" style={{ width: "32px", height: "32px" }} />
           </div>
           <h2>Happy Family</h2>
           <p>Internal Management System</p>
@@ -52,17 +40,20 @@ export default function Layout({
             <div className="nav-section" key={sec}>
               <div className="nav-label">{sec}</div>
               {PAGES.filter((p) => p.section === sec).map((p) => (
-                <button
-                  key={p.id}
-                  className={`nav-item ${activePage === p.id ? "active" : ""}`}
-                  onClick={() => onNavigate(p.id)}
+                <NavLink
+                  key={p.path}
+                  to={p.path}
+                  end={p.path === "/"}           // exact match for root only
+                  className={({ isActive }) =>
+                    `nav-item ${isActive ? "active" : ""}`
+                  }
                 >
                   <span className="icon">{p.icon}</span>
                   {p.label}
                   {p.badge && (
                     <span className="nav-badge">{taskCount ?? "—"}</span>
                   )}
-                </button>
+                </NavLink>
               ))}
             </div>
           ))}
@@ -87,13 +78,12 @@ export default function Layout({
         </div>
       </aside>
 
-      {/* MAIN */}
       <div className="main">
         <header className="topbar">
           <div
             className="topbar-title"
             dangerouslySetInnerHTML={{
-              __html: titleMap[activePage] || activePage,
+              __html: titleMap[location.pathname] || location.pathname,
             }}
           />
           <div className="topbar-actions">
